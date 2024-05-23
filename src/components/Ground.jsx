@@ -4,8 +4,17 @@ import { BufferAttribute } from 'three';
 import { TextureLoader } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
 import * as THREE from 'three';
+import { usePlane } from '@react-three/cannon';
 
 const Ground = () => {
+    const [ref] = usePlane( 
+        ()=> ({
+            type: 'Static',
+            rotation: [-Math.PI/2, 0, 0]
+        }),
+        useRef(null)
+    ); // this is used so I can have a flat ground on which a body with a certain mass can land 
+
     const gridMap = useLoader(
         TextureLoader,
         process.env.PUBLIC_URL + "/textures/grid.png"
@@ -26,15 +35,34 @@ const Ground = () => {
     }, [gridMap]);
 
     const meshRef = useRef(null);
+
     useEffect(() => {
         if (meshRef.current) {
             var uvs = meshRef.current.geometry.attributes.uv.array;
             meshRef.current.geometry.setAttribute("uv2", new BufferAttribute(uvs, 2));
         }
     }, [meshRef.current]);
+    const meshRef2 = useRef(null);
+    useEffect(()=>{
+        var uvs2 = meshRef2.current.geometry.attributes.uv.array;
+        meshRef2.current.geometry.setAttribute("uv2", new BufferAttribute(uvs2,2));
+    },[meshRef2.current])
 
     return (
         <>
+        <mesh ref={meshRef2}
+        position={[-2.285,-0.01,-1.325]}
+        rotation-x={-Math.PI *0.5}
+        >
+            <planeGeometry args={[12,12]}/>
+            <meshBasicMaterial
+            opacity={0.325}
+            alphaMap={gridMap}
+            transparent={true}
+            color={'white'}
+            />
+            
+        </mesh>
             <mesh ref={meshRef} position={[-2.285, -0.015, -1.325]} rotation-x={-Math.PI * 0.5} rotation-z={0.079}>
                 <circleGeometry args={[6.12, 50]} />
                 <MeshReflectorMaterial
@@ -42,7 +70,7 @@ const Ground = () => {
                     alphaMap={alphaMap}
                     transparent={true}
                     color={[0.5, 0.5, 0.5]}
-                    metalness={0.05}
+                    metalness={0.08}
                     roughness={0.4}
                     dithering={true}
                     blur={[1024, 512]}

@@ -1,13 +1,16 @@
-import React, { Suspense, useState, useEffect } from 'react';
-import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import Track from './Track';
-import Ground from './Ground';
-import TimeMachine from './TimeMachine';
-import Car from './Car';
+import {
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei";
+import { Suspense, useEffect, useState } from "react";
+import { Car } from "./Car";
+import  Ground  from "./Ground";
+import Track  from "./Track";
 
-const Scene = () => {
-    const [thirdPerson, setThirdPerson] = useState(false);
-    const [cameraPosition, setCameraPosition] = useState([-6, 3.9, 6.21]);
+export function Scene() {
+  const [thirdPerson, setThirdPerson] = useState(false);
+  const [cameraPosition, setCameraPosition] = useState([-6, 3.9, 6.21]);
 
   useEffect(() => {
     function keydownHandler(e) {
@@ -29,11 +32,9 @@ const Scene = () => {
         <OrbitControls target={[-2.64, -0.71, 0.03]} />
       )}
 
-
-      <Track/>
-      <Ground/>
-      {/*<TimeMachine/>*/}
-      <Car thirdPerson={thirdPerson}/>
+      <Ground />
+      <Track />
+      <Car thirdPerson={thirdPerson} />
     </Suspense>
   );
 };

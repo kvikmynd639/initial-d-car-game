@@ -7,6 +7,8 @@ export const WheelDebug = ({ radius, wheelRef }) => {
         <cylinderGeometry args={[radius, radius, 0.015, 16]} />
         <meshNormalMaterial transparent={true} opacity={0.25} />
       </mesh>
+
+     
     </group>
   );
 };

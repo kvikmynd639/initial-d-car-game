@@ -2,6 +2,8 @@ import React, {useEffect} from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { TextureLoader } from 'three'
+import { ColliderBox } from './ColiderBox'
+import {Ramp} from './Ramp'
 
 const Track = () => {
     const result = useLoader(
@@ -22,10 +24,14 @@ const Track = () => {
 
 
   return (
+    <>
     <mesh>
         <primitive object={geometry} attach={"geometry"}/>
         <meshBasicMaterial toneMapped={false} map={colorMap}/>
     </mesh>
+    <ColliderBox position={[1.75,0,0.5]} scale={[0.3,1,0.3]}/>
+    <Ramp/>
+    </>
   )
 }
 
